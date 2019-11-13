@@ -1,1 +1,9 @@
-/* You can add global styles to this file, and also import other style files */
+.txt_ultraviolet {
+  color: #9f78ff;
+}
+.switch-active {
+  color: coral;
+  border-bottom-color: coral;
+  border-bottom-style: solid;
+  padding-bottom: 5px;
+}

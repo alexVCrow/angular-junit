@@ -1,0 +1,8 @@
+<div class="d-flex bg-dark justify-content-center">
+  <div class="p-2">
+    <span [ngClass]="{'switch-active': typeSwitch}" (click)="onClick(typeSwitch)">ON</span>
+  </div>
+  <div class="p-2">
+    <span [ngClass]="{'switch-active': !typeSwitch}" (click)="onClick(typeSwitch)">OFF</span>
+  </div>
+</div>

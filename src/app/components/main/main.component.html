@@ -1,0 +1,10 @@
+<div class="d-flex bg-dark justify-content-center">
+    <div class="p-2">
+      <button type="button" class="btn btn-danger" (click)="click()">{{textButton}}</button>
+    </div>
+  </div>
+  <div class="d-flex bg-dark justify-content-center txt_ultraviolet">
+    <div class="p-2">
+      <app-switch-buttons [typeSwitch] = "typeSwitch" (type) = "onChange($event)"></app-switch-buttons>
+    </div>
+  </div>
