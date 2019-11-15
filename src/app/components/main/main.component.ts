@@ -10,12 +10,14 @@ export class MainComponent implements OnInit {
   textButton = 'Off';
   constructor() { }
 
-  ngOnInit() { }
+  ngOnInit() {}
+
   click() {
     this.typeSwitch = !this.typeSwitch;
     this.onChange(this.typeSwitch);
   }
   onChange(type: boolean) {
+    this.typeSwitch = type;
     this.textButton = type ? 'On' : 'Off';
   }
 
