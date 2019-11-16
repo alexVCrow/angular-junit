@@ -1,11 +1,13 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {MainComponent} from './components/main/main.component';
+import {FormComponent} from './components/form/form.component';
 
 const routes: Routes = [
-  { path: '', redirectTo: '/', pathMatch: 'full' },
+  { path: '', redirectTo: 'main', pathMatch: 'full' },
   { path: 'main', component: MainComponent },
-  {path: '**', redirectTo: '/main'}
+  { path: 'form', component: FormComponent },
+  {path: '**', redirectTo: 'main'}
 ];
 
 @NgModule({
