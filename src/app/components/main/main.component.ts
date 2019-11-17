@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import {SubjectService} from '../../services/subject.service';
 
 @Component({
   selector: 'app-main',
@@ -8,13 +9,14 @@ import { Component, OnInit } from '@angular/core';
 export class MainComponent implements OnInit {
   typeSwitch = false;
   textButton = 'Off';
-  constructor() { }
+  constructor(private subjectService: SubjectService) { }
 
   ngOnInit() {}
 
   click() {
     this.typeSwitch = !this.typeSwitch;
     this.onChange(this.typeSwitch);
+    this.subjectService.sendMessage('Hello!');
   }
   onChange(type: boolean) {
     this.typeSwitch = type;

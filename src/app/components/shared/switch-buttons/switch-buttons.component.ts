@@ -1,21 +1,27 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges} from '@angular/core';
 import {ButtonsService} from '../../../services/buttons.service';
+import {Subscription} from 'rxjs';
+import {SubjectService} from '../../../services/subject.service';
 
 @Component({
   selector: 'app-switch-buttons',
   templateUrl: './switch-buttons.component.html',
   styleUrls: ['./switch-buttons.component.css']
 })
-export class SwitchButtonsComponent implements OnInit, OnChanges {
+export class SwitchButtonsComponent implements OnInit, OnChanges, OnDestroy {
   @Input() typeSwitch: boolean;
   @Output() type = new EventEmitter<boolean>();
   templateSwitch = [];
   selectSwitch: string;
-  constructor(private buttonsService: ButtonsService) { }
+  subscription: Subscription = new Subscription();
+  message: string;
+  constructor(private buttonsService: ButtonsService, private subjectService: SubjectService) { }
 
   ngOnInit() {
     this.templateSwitch = this.buttonsService.getButtons();
     this.setCurrentSwitch(this.typeSwitch);
+    this.subscription = this.subjectService.accessMessage()
+      .subscribe(msg => { this.message = msg;});
   }
 
   onClick(type: string) {
@@ -32,6 +38,10 @@ export class SwitchButtonsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     this.setCurrentSwitch(changes.typeSwitch.currentValue);
+  }
+
+  ngOnDestroy() {
+    this.subscription.unsubscribe();
   }
 
 }

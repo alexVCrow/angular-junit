@@ -4,6 +4,7 @@ import {MainComponent} from './main.component';
 import {SwitchButtonsComponent} from '../shared/switch-buttons/switch-buttons.component';
 import {MockComponent} from 'ng-mocks';
 import {By} from '@angular/platform-browser';
+import {SubjectService} from '../../services/subject.service';
 
 describe('MainComponent', () => {
   beforeEach(async(() => {
@@ -17,7 +18,8 @@ describe('MainComponent', () => {
   function setup() {
     const fixture = TestBed.createComponent(MainComponent);
     const app = fixture.componentInstance;
-    return { fixture, app};
+    const subjectService = fixture.debugElement.injector.get(SubjectService);
+    return { fixture, app, subjectService};
   }
 
   function searchButton(fixture){
@@ -66,6 +68,15 @@ describe('MainComponent', () => {
     expect(app.typeSwitch).toBeTruthy();
     buttons = searchButton(fixture);
     expect(findText(buttons)).toEqual('On');
-  }))
+  }));
+
+  it('should call subjectService', async(() => {
+    const { fixture, subjectService }  = setup();
+    const buttons = searchButton(fixture);
+    spyOn(subjectService, 'sendMessage');
+    buttons.nativeElement.click();
+    fixture.detectChanges();
+    expect(subjectService.sendMessage).toHaveBeenCalledWith('Hello!');
+  }));
 
 });

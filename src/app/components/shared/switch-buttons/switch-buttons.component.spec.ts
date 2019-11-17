@@ -1,9 +1,11 @@
-import { async, TestBed } from '@angular/core/testing';
+import {async, TestBed} from '@angular/core/testing';
 
 import { SwitchButtonsComponent } from './switch-buttons.component';
 import {By} from '@angular/platform-browser';
 import {SimpleChange} from '@angular/core';
 import {ButtonsService} from '../../../services/buttons.service';
+import {SubjectService} from '../../../services/subject.service';
+import {of} from 'rxjs';
 
 describe('SwitchButtonsComponent', () => {
   beforeEach(async(() => {
@@ -18,7 +20,8 @@ describe('SwitchButtonsComponent', () => {
     const fixture = TestBed.createComponent(SwitchButtonsComponent);
     const app = fixture.componentInstance;
     const buttonsService = fixture.debugElement.injector.get(ButtonsService);
-    return { fixture, app, buttonsService };
+    const subjectService = fixture.debugElement.injector.get(SubjectService);
+    return { fixture, app, buttonsService, subjectService };
   }
   function searchSpans(fixture) {
     return fixture.debugElement.queryAll(By.css('span'));
@@ -127,5 +130,21 @@ describe('SwitchButtonsComponent', () => {
     expect(isContainsClass(spans[0])).toBeFalsy();
     expect(app.selectSwitch).toEqual(app.templateSwitch[1]);
   }));
+
+  it('unsubscribes when destoryed', async(() => {
+    const { app } = setup();
+    spyOn(app.subscription, 'unsubscribe');
+    app.ngOnDestroy();
+    expect(app.subscription.unsubscribe).toHaveBeenCalled();
+  }));
+
+  it('unsubscribes when destoryed', async(() => {
+    const { app, subjectService, fixture } = setup();
+    const mockMessage = 'Sasha';
+    expect(app.message).toBeUndefined();
+    spyOn(subjectService, 'accessMessage').and.returnValue(of(mockMessage));
+    fixture.detectChanges();
+    expect(app.message).toEqual('Sasha');
+  }))
 
 });
